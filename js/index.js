@@ -153,6 +153,14 @@ const comparationColor = (a, b) => {
   return getHexColorNumber(color_a) > getHexColorNumber(color_b);
 };
 
+//Сравнение цвета в алгоритме быстрой сортировки
+const comparationColorForQuickSort = (a, b) => {
+  // TODO: допишите функцию сравнения двух элементов по цвету
+  let color_a = a['color']; //вначале получаем текстовое значение цвета
+  let color_b = b['color'];
+  return getHexColorNumber(color_a) < getHexColorNumber(color_b);
+};
+
 //Преобразование значения цвета в 16-разр. число
 function getHexColorNumber(arg) {
   switch (arg) {
@@ -179,10 +187,54 @@ const sortAPI = {
     }
   },
 
-  quickSort(arr, comparation) {
-    // TODO: допишите функцию быстрой сортировки
-    
+  
+
+  //Функция быстрой сортировки
+  quickSort(items, left, right) {
+    let index;
+    if (items.length > 1) {
+        left = typeof left != "number" ? 0 : left;
+        right = typeof right != "number" ? items.length - 1 : right;
+        index = sortAPI.partition(items, left, right);
+        if (left < index - 1) {
+            sortAPI.quickSort(items, left, index - 1);
+        }
+        if (index < right) {
+            sortAPI.quickSort(items, index, right);
+        }
+    }
+    return items;
   },
+
+
+  //Вспомогательная функция обмена значениями для быстрой сортировки
+  swap(items, firstIndex, secondIndex) {
+    const temp = items[firstIndex];
+    items[firstIndex] = items[secondIndex];
+    items[secondIndex] = temp;
+  },
+
+//Вспомогательная функция определения разделителя для быстрой сортировки
+  partition(items, left, right) {
+    let pivot = items[Math.floor((right + left)/2)];
+    let i = left;
+    let j = right;
+    while (i <= j) {
+        while (comparationColorForQuickSort(items[i], pivot)) {
+            i++;
+        }
+        while (comparationColor(items[j], pivot)) {
+            j--;
+        }
+        if (i <= j) {
+          sortAPI.swap(items, i, j);
+          i++;
+          j--;
+        }
+    }
+    return i;
+  },
+
 
   // выполняет сортировку и производит замер времени
   startSort(sort, arr, comparation) {
@@ -193,6 +245,7 @@ const sortAPI = {
   },
 };
 
+
 // инициализация полей
 /*
 sortKindLabel.textContent = sortKind;
@@ -201,6 +254,8 @@ sortTimeLabel.textContent = sortTime;
 
 sortChangeButton.addEventListener('click', () => {
   // TODO: переключать значение sortKind между 'bubbleSort' / 'quickSort'
+  sortKind = sortKind == 'quickSort' ? 'bubbleSort' : 'quickSort';
+  sortKindLabel.textContent = sortKind;
 });
 
 sortActionButton.addEventListener('click', () => {
@@ -220,3 +275,4 @@ addActionButton.addEventListener('click', () => {
   // необходимые значения берем из kindInput, colorInput, weightInput
   display();
 });
+

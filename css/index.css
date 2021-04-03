@@ -30,7 +30,7 @@ button {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  max-width: fit-content;
+  /*max-width: fit-content;*/
 }
 
 input {
