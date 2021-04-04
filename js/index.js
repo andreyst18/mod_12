@@ -33,14 +33,10 @@ let fruits = JSON.parse(fruitsJSON);
 
 // отрисовка карточек
 const display = () => {
-  // TODO: очищаем fruitsList от вложенных элементов,
-  // чтобы заполнить актуальными данными из fruits
   
   fruitsList.innerHTML = "";
 
   for (let i = 0; i < fruits.length; i++) {
-    // TODO: формируем новый элемент <li> при помощи document.createElement,
-    // и добавляем в конец списка fruitsList при помощи document.appendChild
     const li = document.createElement('li');
     const div = document.createElement('div');
     let blockClass;
@@ -87,12 +83,6 @@ const shuffleFruits = () => {
   
   // ATTENTION: сейчас при клике вы запустите бесконечный цикл и браузер зависнет
   while (fruits.length > 0) {
-    // TODO: допишите функцию перемешивания массива
-    //
-    // Подсказка: находим случайный элемент из fruits, используя getRandomInt
-    // вырезаем его из fruits и вставляем в result.
-    // ex.: [1, 2, 3], [] => [1, 3], [2] => [3], [2, 1] => [], [2, 1, 3]
-    // (массив fruits будет уменьшатся, а result заполняться)
     let i = getRandomInt(0, fruits.length - 1);
     let removed = fruits.splice(i, 1);
     result.unshift(removed[0]);
@@ -130,7 +120,6 @@ function compare(arg_1, arg_2) {
 const filterFruits = () => {
   fruits = typeof(fruitsAdvanced) != 'undefined' ? fruitsAdvanced : JSON.parse(fruitsJSON);
   fruits = fruits.filter((item) => {
-    // TODO: допишите функцию
     return item['weight'] >= minValue && item['weight'] <= maxValue;
   });
 
@@ -153,7 +142,6 @@ sortKindLabel.textContent = sortKind;
 sortTimeLabel.textContent = sortTime;
 
 const comparationColor = (a, b) => {
-  // TODO: допишите функцию сравнения двух элементов по цвету
   let color_a = a['color']; //вначале получаем текстовое значение цвета
   let color_b = b['color'];
   return getHexColorNumber(color_a) > getHexColorNumber(color_b);
@@ -161,7 +149,6 @@ const comparationColor = (a, b) => {
 
 //Сравнение цвета в алгоритме быстрой сортировки
 const comparationColorForQuickSort = (a, b) => {
-  // TODO: допишите функцию сравнения двух элементов по цвету
   let color_a = a['color']; //вначале получаем текстовое значение цвета
   let color_b = b['color'];
   return getHexColorNumber(color_a) < getHexColorNumber(color_b);
@@ -253,13 +240,6 @@ const sortAPI = {
   },
 };
 
-
-// инициализация полей
-/*
-sortKindLabel.textContent = sortKind;
-sortTimeLabel.textContent = sortTime;
-*/
-
 sortChangeButton.addEventListener('click', () => {
   // TODO: переключать значение sortKind между 'bubbleSort' / 'quickSort'
   sortKind = sortKind == 'quickSort' ? 'bubbleSort' : 'quickSort';
@@ -279,9 +259,7 @@ sortActionButton.addEventListener('click', () => {
 /*** ДОБАВИТЬ ФРУКТ ***/
 
 addActionButton.addEventListener('click', () => {
-  // TODO: создание и добавление нового фрукта в массив fruits
-  // необходимые значения берем из kindInput, colorInput, weightInput
-  
+    
   newKind = document.getElementById('newKind').value;
   newColor = document.getElementById('newColor').value;
   newWeight = document.getElementById('newWeight').value;
