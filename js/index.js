@@ -1,3 +1,4 @@
+
 // элементы в DOM можно получить при помощи функции querySelector
 const fruitsList = document.querySelector('.fruits__list'); // список карточек
 const shuffleButton = document.querySelector('.shuffle__btn'); // кнопка перемешивания
@@ -13,6 +14,8 @@ const addActionButton = document.querySelector('.add__action__btn'); // кноп
 
 let minInput = document.getElementById('min_value');
 let maxInput = document.getElementById('max_value');
+let newKind, newColor, newWeight; // Параметры нового фрукта
+let fruitsAdvanced; //копия расширенного массива
 
 // список фруктов в JSON формате
 let fruitsJSON = `[
@@ -52,6 +55,9 @@ const display = () => {
       case 'Карамбола': blockClass = 'fruit_yellow';
         break;
       case 'Тамаринд': blockClass = 'fruit_lightbrown';
+        break;
+      //новый фрукт
+      case 'Авокадо': blockClass = 'fruit_darkgreen'; //17 700
         break;
     }
          
@@ -122,7 +128,7 @@ function compare(arg_1, arg_2) {
 
 // фильтрация массива
 const filterFruits = () => {
-  fruits = JSON.parse(fruitsJSON);
+  fruits = typeof(fruitsAdvanced) != 'undefined' ? fruitsAdvanced : JSON.parse(fruitsJSON);
   fruits = fruits.filter((item) => {
     // TODO: допишите функцию
     return item['weight'] >= minValue && item['weight'] <= maxValue;
@@ -169,6 +175,8 @@ function getHexColorNumber(arg) {
     case 'розово-красный': return parseInt('dc143c', 16); // 14 423 100
     case 'желтый': return parseInt('ffd800', 16); // 16 766 976
     case 'светло-коричневый': return parseInt('cd853f', 16); // 13 468 991
+    //новый фрукт
+    case 'темно-зеленый': return parseInt('004524', 16); // 17 700
   }
 }
 
@@ -273,6 +281,34 @@ sortActionButton.addEventListener('click', () => {
 addActionButton.addEventListener('click', () => {
   // TODO: создание и добавление нового фрукта в массив fruits
   // необходимые значения берем из kindInput, colorInput, weightInput
-  display();
+  
+  newKind = document.getElementById('newKind').value;
+  newColor = document.getElementById('newColor').value;
+  newWeight = document.getElementById('newWeight').value;
+  
+  newFruit = {
+    kind : newKind,
+    color : newColor,
+    weight : newWeight
+  }
+
+  //Проверка на незаполненные поля
+  let i = 0; 
+  let addNewFruit = 0;
+  for (let key in newFruit) {
+    i++;
+    if (!newFruit[key]) {
+      alert(`Не заполнено поле ${key}!`);
+    } else {
+      addNewFruit++;
+    }
+  }
+  
+  if (addNewFruit === i) {
+    fruits.push(newFruit);
+    fruitsAdvanced = fruits; //создаем копию расширенного массива
+    display();
+  }
+  
 });
 
